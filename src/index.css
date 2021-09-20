@@ -1,0 +1,21 @@
+body,
+#root {
+  margin: 0;
+  height: 100vh;
+}
+a:link {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
