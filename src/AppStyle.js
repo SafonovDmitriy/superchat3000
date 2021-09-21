@@ -24,7 +24,7 @@ export default makeStyles({
     "& section": {
       padding: "95px 0",
       boxSizing: "border-box",
-      minHeight: "100vh",
+      height: "100vh",
       backgroundColor: "rgb(40, 37, 53)",
     },
   },

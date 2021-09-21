@@ -4,6 +4,15 @@ export default makeStyles({
   message: {
     display: "flex",
     alignItems: "center",
+    "& p": {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+      "& svg": {
+        fontSize: 10,
+      },
+    },
   },
   sent: {
     flexDirection: "row-reverse",

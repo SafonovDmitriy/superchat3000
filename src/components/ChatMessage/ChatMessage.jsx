@@ -1,12 +1,14 @@
+import { Box } from "@mui/system";
 import clsx from "clsx";
 import { auth } from "../../firebase";
 import useStyles from "./ChatMessageStyle";
+import { Edit } from "@mui/icons-material";
 const ChatMessage = (props) => {
-  const { text, uid, photoURL } = props.message;
+  const { text, uid, photoURL, isChanged } = props.message;
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   const classes = useStyles();
   return (
-    <div className={clsx(classes.message, classes[messageClass])}>
+    <Box className={clsx(classes.message, classes[messageClass])}>
       <img
         src={
           photoURL || "https://api.adorable.io/avatars/23/abott@adorable.png"
@@ -14,8 +16,11 @@ const ChatMessage = (props) => {
         alt=""
         className={classes.avatar}
       />
-      <p>{text}</p>
-    </div>
+
+      <p>
+        {text} {isChanged ? <Edit /> : null}
+      </p>
+    </Box>
   );
 };
 export default ChatMessage;

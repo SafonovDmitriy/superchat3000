@@ -1,3 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
-export default makeStyles({});
+export default makeStyles({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignContent: "space-between",
+    maxHeight: "90vh",
+  },
+});

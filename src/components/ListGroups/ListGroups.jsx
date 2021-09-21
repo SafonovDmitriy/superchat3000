@@ -1,5 +1,4 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@material-ui/core";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useHistory } from "react-router";
@@ -8,6 +7,7 @@ import { auth, firebase, firestore } from "../../firebase";
 import { IS_CHECK_PRIVAT_LOCAL_STORAGE } from "../../utils/constants";
 import formGenerator from "../../utils/formGenerator";
 import { ROOMS_PAGE } from "../../utils/rootPath";
+import { DropDownBoxNull } from "../DropDownBox/DropDownBox";
 import useStyles from "./ListGroupsStyle";
 const ListGroups = () => {
   const classes = useStyles();
@@ -140,16 +140,8 @@ const ListGroups = () => {
           label="Show Privat Group"
         />
       </Box>
-      <Box
-        className={clsx(
-          classes.createGroup,
-          updateOpenForm !== null ? classes.open : ""
-        )}
-      >
-        {updateOpenForm !== null && (
-          <Box className={classes.fields}>{showCreateForm()}</Box>
-        )}
-      </Box>
+
+      <DropDownBoxNull flag={updateOpenForm} chieldren={showCreateForm()} />
 
       {showRooms.length ? (
         <Box className={classes.list}>

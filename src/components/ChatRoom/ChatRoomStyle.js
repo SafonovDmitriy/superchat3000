@@ -59,4 +59,10 @@ export default makeStyles({
       boxSizing: "border-box",
     },
   },
+  selectMsg: {
+    backgroundColor: "#4c4a4a24",
+  },
+  changeMsg: {
+    marginBottom: "95px",
+  },
 });
