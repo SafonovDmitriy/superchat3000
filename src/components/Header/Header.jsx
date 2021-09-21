@@ -1,17 +1,22 @@
-import { Box, useMediaQuery } from "@material-ui/core";
-import clsx from "clsx";
+import { Button } from "@material-ui/core";
 import React from "react";
-import useStyles from "./HeaderStyles";
+import { Link, useLocation } from "react-router-dom";
+import { SignOut } from "..";
+import { ROOMS_PAGE } from "../../utils/rootPath";
+
 const Header = () => {
-  const classes = useStyles();
-  const matches = useMediaQuery("(min-width:700px)");
+  const { pathname } = useLocation();
   return (
-    <Box
-      className={clsx(
-        classes.header,
-        matches ? classes.sideBarOpen : classes.sideBarClose
-      )}
-    ></Box>
+    <header>
+      <h1>⚛️🔥💬</h1>
+      {!pathname.indexOf(`${ROOMS_PAGE}/`) ? (
+        <Link to={ROOMS_PAGE}>
+          <Button color="secondary">Go to List</Button>
+        </Link>
+      ) : null}
+
+      <SignOut />
+    </header>
   );
 };
 

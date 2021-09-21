@@ -1,7 +1,8 @@
 body,
 #root {
   margin: 0;
-  height: 100vh;
+  /* height: 100vh; */
+  background-color: #282c34;
 }
 a:link {
   text-decoration: none;
@@ -18,4 +19,20 @@ a:hover {
 
 a:active {
   text-decoration: none;
+}
+
+p {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+ul,
+li {
+  text-align: left;
+  list-style: none;
 }

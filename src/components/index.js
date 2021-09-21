@@ -1,4 +1,10 @@
+export { default as ChatMessage } from "./ChatMessage/ChatMessage";
+export { default as ChatRoom } from "./ChatRoom/ChatRoom";
 export { default as Header } from "./Header/Header";
-export { default as HomePage } from "./HomePage/HomePage";
+export { default as ListGroups } from "./ListGroups/ListGroups";
+export { default as ModalPasswordConfirmation } from "./ListGroups/Room/ModalPasswordConfirmation/ModalPasswordConfirmation";
+export { default as Room } from "./ListGroups/Room/Room";
 export { default as Root } from "./Root/Root";
 export { default as SideBar } from "./SideBar/SideBar";
+export { default as SignIn } from "./SignIn/SignIn";
+export { default as SignOut } from "./SignOut/SignOut";

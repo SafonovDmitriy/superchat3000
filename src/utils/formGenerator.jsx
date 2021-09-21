@@ -18,13 +18,13 @@ const formGenerator = ({
   setValue = () => {},
   setError = () => {},
   className = {},
+  submitProps = {},
   submitText,
   titleGroups = {},
   onSubmit = () => {},
 }) => {
   const _formJSX = [];
   const _groupFieldsJSX = {};
-
   const createField = (field) => (
     <TextField
       key={field.name}
@@ -39,7 +39,11 @@ const formGenerator = ({
   const onSubmitHendler = (e) => {
     e.preventDefault();
     validationField();
-    onSubmit();
+    const _form = {};
+    form.forEach((item) => {
+      Object.assign(_form, { [item.name]: item.value });
+    });
+    onSubmit(_form);
   };
 
   const validationField = (_form = form) => {
@@ -87,6 +91,7 @@ const formGenerator = ({
             style={{
               display: "flex",
               flexDirection: "row",
+              gap: 10,
               justifyContent: "space-between",
             }}
           >
@@ -102,7 +107,11 @@ const formGenerator = ({
   return form.length ? (
     <form className={className} onSubmit={onSubmitHendler}>
       {_formJSX}
-      {submitText && <Button type="submit">{submitText}</Button>}
+      {submitText && (
+        <Button type="submit" {...submitProps}>
+          {submitText}
+        </Button>
+      )}
     </form>
   ) : null;
 };

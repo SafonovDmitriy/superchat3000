@@ -1,10 +1,10 @@
 import { Box, useMediaQuery } from "@material-ui/core";
-import React from "react";
-import { Route, Switch } from "react-router";
-import { HomePage } from "..";
-import { HOME_PAGE } from "../../utils/rootPath";
-import useStyles from "./RootStyle";
 import clsx from "clsx";
+import React from "react";
+import { Redirect, Route, Switch } from "react-router";
+import { ChatRoom, ListGroups } from "..";
+import { ROOMS_PAGE, ROOM_PAGE } from "../../utils/rootPath";
+import useStyles from "./RootStyle";
 const Root = () => {
   const classes = useStyles();
   const matches = useMediaQuery("(min-width:700px)");
@@ -16,7 +16,9 @@ const Root = () => {
       )}
     >
       <Switch>
-        <Route exact path={HOME_PAGE} component={HomePage} />
+        <Route exact path={ROOMS_PAGE} component={ListGroups} />
+        <Route exact path={ROOM_PAGE} component={ChatRoom} />
+        <Redirect to={ROOMS_PAGE} />
       </Switch>
     </Box>
   );
