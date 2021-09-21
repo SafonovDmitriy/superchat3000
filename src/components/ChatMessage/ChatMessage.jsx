@@ -3,8 +3,9 @@ import clsx from "clsx";
 import { auth } from "../../firebase";
 import useStyles from "./ChatMessageStyle";
 import { Edit } from "@mui/icons-material";
-const ChatMessage = (props) => {
-  const { text, uid, photoURL, isChanged } = props.message;
+const ChatMessage = ({ message }) => {
+  const { text, uid, photoURL, isChanged } = message;
+  console.log(`props.message`, message);
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   const classes = useStyles();
   return (

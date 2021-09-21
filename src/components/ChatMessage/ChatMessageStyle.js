@@ -20,12 +20,14 @@ export default makeStyles({
       color: "white",
       background: "#0b93f6",
       alignSelf: "flex-end",
+      borderRadius: "25px 0 25px 25px",
     },
   },
   received: {
     "& p": {
       background: "#e5e5ea",
       color: "black",
+      borderRadius: "0px 25px 25px 25px",
     },
   },
   avatar: {

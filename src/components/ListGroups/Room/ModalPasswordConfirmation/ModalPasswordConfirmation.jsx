@@ -36,6 +36,7 @@ const ModalPasswordConfirmation = ({
           placeholder="Вот прям сюда"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          type="password"
         />
         <Button
           color="secondary"
