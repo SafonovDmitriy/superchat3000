@@ -14,5 +14,9 @@ export default makeStyles({
     padding: 50,
     borderRadius: 10,
     boxShadow: "2px 2px 4px 0 red",
+    "& form": {
+      display: "flex",
+      flexDirection: "column",
+    },
   },
 });

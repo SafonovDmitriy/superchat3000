@@ -15,7 +15,8 @@ const ModalPasswordConfirmation = ({
   const [value, onChange] = useState("");
   const [chance, setChance] = useState(3);
 
-  const moveToRoom = () => {
+  const moveToRoom = (e) => {
+    e.preventDefault();
     if (value.trim().length) {
       if (value === room.password) {
         history.push(`${ROOMS_PAGE}/${room.id}`);
@@ -32,19 +33,21 @@ const ModalPasswordConfirmation = ({
     >
       <Box className={classes.modal_content}>
         <h1>{`Введите пароль от ${room.name} комнаты`}</h1>
-        <TextField
-          placeholder="Вот прям сюда"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          type="password"
-        />
-        <Button
-          color="secondary"
-          onClick={() => moveToRoom(value)}
-          disabled={chance === 0}
-        >
-          Ну погнали
-        </Button>
+        <form onSubmit={moveToRoom}>
+          <TextField
+            placeholder="Вот прям сюда"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            type="password"
+          />
+          <Button
+            color="secondary"
+            type="submit"
+            disabled={chance === 0}
+            children={"Ну погнали"}
+          />
+        </form>
+
         {chance < 3 && chance !== 0 && (
           <Box>{`Пароль не верный,у вас осталось ${chance} попыток`} </Box>
         )}
@@ -73,5 +76,5 @@ const StartTimer = ({ time, end }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer]);
 
-  return <p style={{ color: "black" }}>{`Заебал, жди ${timer} сек`}</p>;
+  return <p style={{ color: "black" }}>{`Ну теперь жди ${timer} сек`}</p>;
 };
