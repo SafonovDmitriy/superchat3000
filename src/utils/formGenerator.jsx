@@ -17,7 +17,7 @@ const formGenerator = ({
   error = {},
   setValue = () => {},
   setError = () => {},
-  className = {},
+  className,
   submitProps = {},
   submitText,
   titleGroups = {},
@@ -34,6 +34,9 @@ const formGenerator = ({
       helperText={error[field.name]}
       onChange={changeFieldHendler}
       {...field.any}
+      style={{
+        width: "100%",
+      }}
     />
   );
   const onSubmitHendler = (e) => {
@@ -85,18 +88,21 @@ const formGenerator = ({
   for (const key in _groupFieldsJSX) {
     if (key !== 100) {
       _formJSX.push(
-        <Box key={key}>
+        <Box
+          key={key}
+          style={{
+            display: "flex",
+            // flexDirection: "row",
+            gap: 10,
+            justifyContent: "center",
+          }}
+        >
           <h2>{titleGroups[key]}</h2>
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 10,
-              justifyContent: "space-between",
-            }}
-          >
-            {_groupFieldsJSX[key].map((item) => item)}
-          </Box>
+          {/* <Box
+          
+          > */}
+          {_groupFieldsJSX[key].map((item) => item)}
+          {/* </Box> */}
         </Box>
       );
     } else {

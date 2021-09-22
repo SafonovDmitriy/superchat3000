@@ -5,7 +5,6 @@ import { useParams } from "react-router";
 import { ChatMessage, DropDownBox } from "..";
 import { auth, firebase, firestore } from "../../firebase";
 import formGenerator from "../../utils/formGenerator";
-
 import useStyles from "./ChatRoomStyle";
 const ChatRoom = () => {
   const { idRoom } = useParams();
@@ -14,6 +13,15 @@ const ChatRoom = () => {
 
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
+
+  useEffect(() => {
+    console.log(`selectMsg`, selectMsg);
+  }, [selectMsg]);
+
+  useEffect(() => {
+    console.log(`isOpenUpdateMessage`, isOpenUpdateMessage);
+  }, [isOpenUpdateMessage]);
+
   const [fieldText, setFieldText] = useState([
     {
       name: "text",
@@ -21,6 +29,7 @@ const ChatRoom = () => {
       any: { variant: "outlined", placeholder: "Name your group" },
     },
   ]);
+
   const changeMessageForm = () => {
     return formGenerator({
       form: fieldText,
@@ -37,6 +46,10 @@ const ChatRoom = () => {
     .doc(idRoom)
     .collection("messages");
   const query = messagesRef.orderBy("createdAt");
+
+  const [messages] = useCollectionData(query, { idField: "id" });
+  const [formValue, setFormValue] = useState("");
+
   const onSubmitHendler = ({ text }) => {
     if (text !== selectMsg.text) {
       messagesRef.doc(selectMsg.id).update({
@@ -44,24 +57,16 @@ const ChatRoom = () => {
         isChanged: true,
       });
     }
+    setIsOpenUpdateMessage(false);
     setSelectMsg(null);
   };
-  const [messages] = useCollectionData(query, { idField: "id" });
-  const [formValue, setFormValue] = useState("");
+
   useEffect(() => {
-    if (selectMsg && selectMsg.uid === auth.currentUser.uid) {
-      setFieldText(
-        fieldText.map((item) => ({
-          ...item,
-          value: selectMsg.text,
-        }))
-      );
-      setIsOpenUpdateMessage(true);
-      return null;
+    if (!selectMsg) {
+      setIsOpenUpdateMessage(false);
     }
-    setIsOpenUpdateMessage(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectMsg]);
+
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
@@ -75,12 +80,34 @@ const ChatRoom = () => {
     setFormValue("");
     dummy.current.scrollIntoView({ behavior: "smooth" });
   };
-  const selectMessage = (msg) => {
-    if (selectMsg && msg.id === selectMsg.id) {
+  const selectMessage = (e, msg) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if ((selectMsg && msg?.id === selectMsg?.id) || msg === null) {
       setSelectMsg(null);
       return null;
     }
     setSelectMsg(msg);
+  };
+  const editMessage = (message) => {
+    if (message.uid === auth.currentUser.uid) {
+      setFieldText((prevFieldText) =>
+        prevFieldText.map((item) => ({
+          ...item,
+          value: message.text,
+        }))
+      );
+      setIsOpenUpdateMessage(true);
+      return null;
+    }
+    setIsOpenUpdateMessage(false);
+  };
+  const canselAllEvent = (e) => {
+    if (e.target.id === "message") {
+      setSelectMsg(null);
+    }
   };
   return (
     <>
@@ -89,15 +116,21 @@ const ChatRoom = () => {
           messages.map((msg) => (
             <Box
               key={msg.id}
-              onClick={() => selectMessage(msg)}
               className={msg.id === selectMsg?.id ? classes.selectMsg : ""}
+              onClick={canselAllEvent}
             >
-              <ChatMessage message={msg} />
+              <ChatMessage
+                message={msg}
+                selectMessage={selectMessage}
+                editMessage={editMessage}
+                messagesRef={messagesRef}
+              />
             </Box>
           ))}
 
         <span ref={dummy}></span>
       </Box>
+
       <Box className={classes.changeMsg}>
         <DropDownBox
           flag={isOpenUpdateMessage}
