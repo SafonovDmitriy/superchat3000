@@ -7,7 +7,9 @@ export const DropDownBoxNull = ({ flag, chieldren, height = 150 }) => {
   return (
     <Box
       className={clsx(classes.createGroup, flag !== null ? classes.open : "")}
-      style={{ height: flag !== null ? height : 0 }}
+      style={{
+        height: flag !== null ? height : null,
+      }}
     >
       {flag !== null && <Box className={classes.fields}>{chieldren}</Box>}
     </Box>
@@ -18,7 +20,9 @@ const DropDownBox = ({ flag, chieldren, height = 150 }) => {
   return (
     <Box
       className={clsx(classes.createGroup, flag ? classes.open : "")}
-      style={{ height: flag ? height : 0 }}
+      style={{
+        height: flag ? height : null,
+      }}
     >
       {flag !== null && <Box className={classes.fields}>{chieldren}</Box>}
     </Box>

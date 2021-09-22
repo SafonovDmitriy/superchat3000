@@ -97,12 +97,9 @@ const formGenerator = ({
             justifyContent: "center",
           }}
         >
-          <h2>{titleGroups[key]}</h2>
-          {/* <Box
-          
-          > */}
+          {titleGroups[key] && <h2>{titleGroups[key]}</h2>}
+
           {_groupFieldsJSX[key].map((item) => item)}
-          {/* </Box> */}
         </Box>
       );
     } else {

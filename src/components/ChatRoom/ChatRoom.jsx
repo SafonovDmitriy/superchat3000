@@ -14,6 +14,14 @@ const ChatRoom = () => {
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
 
+  const [fieldText, setFieldText] = useState([
+    {
+      name: "text",
+      value: "",
+      any: { variant: "outlined", placeholder: "Change Message" },
+    },
+  ]);
+
   useEffect(() => {
     console.log(`selectMsg`, selectMsg);
   }, [selectMsg]);
@@ -22,13 +30,9 @@ const ChatRoom = () => {
     console.log(`isOpenUpdateMessage`, isOpenUpdateMessage);
   }, [isOpenUpdateMessage]);
 
-  const [fieldText, setFieldText] = useState([
-    {
-      name: "text",
-      value: "",
-      any: { variant: "outlined", placeholder: "Name your group" },
-    },
-  ]);
+  useEffect(() => {
+    console.log(`fieldText`, fieldText);
+  }, [fieldText]);
 
   const changeMessageForm = () => {
     return formGenerator({
