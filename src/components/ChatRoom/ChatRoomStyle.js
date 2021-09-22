@@ -70,7 +70,6 @@ export default makeStyles({
   smilesBox: {
     display: "flex",
     justifyContent: "end",
-    width: "27vw",
 
     position: "absolute",
     bottom: 100,

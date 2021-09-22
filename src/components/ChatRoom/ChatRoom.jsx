@@ -158,7 +158,10 @@ const ChatRoom = () => {
           className={classes.inputForSendMessage}
           endAdornment={
             <Box className={classes.smileButton}>
-              <Button onClick={() => setIsOpenSmiles((prev) => !prev)}>
+              <Button
+                color="secondary"
+                onClick={() => setIsOpenSmiles((prev) => !prev)}
+              >
                 😀
               </Button>
             </Box>
