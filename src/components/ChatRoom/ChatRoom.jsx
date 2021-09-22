@@ -24,9 +24,6 @@ const ChatRoom = () => {
     },
   ]);
 
-  const onEmojiClick = (_, emojiObject) => {
-    setFormValue((prevText) => `${prevText}${emojiObject.emoji}`);
-  };
   const changeMessageForm = () => {
     return formGenerator({
       form: fieldText,
@@ -107,6 +104,21 @@ const ChatRoom = () => {
       setIsOpenSmiles(false);
     }
   };
+  const onEmojiClick = (_, emojiObject) => {
+    if (isOpenUpdateMessage) {
+      setFieldText((prevFieldText) =>
+        prevFieldText.map((item) => ({
+          ...item,
+          value: `${item.value}${emojiObject.emoji}`,
+        }))
+      );
+    } else {
+      setFormValue((prevText) => `${prevText}${emojiObject.emoji}`);
+    }
+  };
+  const setIsOpenSmilesHendler = () => {
+    setIsOpenSmiles((prev) => !prev);
+  };
   return (
     <>
       <Box className={classes.massagesList}>
@@ -158,10 +170,7 @@ const ChatRoom = () => {
           className={classes.inputForSendMessage}
           endAdornment={
             <Box className={classes.smileButton}>
-              <Button
-                color="secondary"
-                onClick={() => setIsOpenSmiles((prev) => !prev)}
-              >
+              <Button color="secondary" onClick={setIsOpenSmilesHendler}>
                 😀
               </Button>
             </Box>
