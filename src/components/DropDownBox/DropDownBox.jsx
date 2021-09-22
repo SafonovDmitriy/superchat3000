@@ -15,11 +15,11 @@ export const DropDownBoxNull = ({ flag, chieldren, height = 150 }) => {
     </Box>
   );
 };
-const DropDownBox = ({ flag, chieldren, height = 150 }) => {
+const DropDownBox = ({ flag, chieldren, height = 150, className = null }) => {
   const classes = useStyles();
   return (
     <Box
-      className={clsx(classes.createGroup, flag ? classes.open : "")}
+      className={clsx(className, classes.createGroup, flag ? classes.open : "")}
       style={{
         height: flag ? height : null,
       }}

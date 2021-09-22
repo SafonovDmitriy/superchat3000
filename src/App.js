@@ -12,7 +12,9 @@ function App() {
   return (
     <Box className={classes.app}>
       <Header />
-      <section>{user ? <Root /> : <SignIn />}</section>
+      <section className={classes.section}>
+        {user ? <Root /> : <SignIn />}
+      </section>
     </Box>
   );
 }

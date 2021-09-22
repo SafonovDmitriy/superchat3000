@@ -1,7 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles({
-  listGroups: {},
+  listGroups: {
+    paddingTop: 100,
+  },
   controleList: {
     display: "flex",
     justifyContent: "space-around",

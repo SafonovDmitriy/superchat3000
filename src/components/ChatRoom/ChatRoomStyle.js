@@ -2,9 +2,8 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles({
   massagesList: {
-    padding: "0 10px",
-    height: "80vh",
-    // margin: "10vh 0 10vh",
+    padding: "35px 10px",
+    height: "90vh",
     overflowY: "scroll",
     display: "flex",
     flexDirection: "column",
@@ -47,7 +46,10 @@ export default makeStyles({
     },
   },
   inputForSendMessage: {
-    "& .MuiInput-root": { height: "100%" },
+    background: "rgb(58, 58, 58)",
+    "& .MuiInput-root": {
+      height: "100%",
+    },
     width: "100%",
     "& input": {
       padding: 20,
@@ -64,5 +66,23 @@ export default makeStyles({
   },
   changeMsg: {
     marginBottom: "95px",
+  },
+  smilesBox: {
+    display: "flex",
+    justifyContent: "end",
+    width: "27vw",
+
+    position: "absolute",
+    bottom: 100,
+    right: 20,
+    border: "none !important",
+    padding: "0 !important",
+  },
+  smileButton: {
+    display: "flex",
+    justifyContent: "center",
+    "& button": {
+      display: "flex",
+    },
   },
 });

@@ -21,7 +21,7 @@ export default makeStyles({
       padding: 10,
       boxSizing: "border-box",
     },
-    "& section": {
+    section: {
       padding: "95px 0",
       boxSizing: "border-box",
       height: "100vh",

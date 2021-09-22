@@ -6,6 +6,7 @@ export default makeStyles({
     flexDirection: "column",
     justifyContent: "space-between",
     alignContent: "space-between",
-    maxHeight: "90vh",
+    maxHeight: "100vh",
+    position: "relative",
   },
 });

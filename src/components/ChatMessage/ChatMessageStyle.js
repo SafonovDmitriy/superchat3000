@@ -18,7 +18,7 @@ export default makeStyles({
     flexDirection: "row-reverse",
     "& p": {
       color: "white",
-      background: "#0b93f6",
+      background: "#0860a0",
       alignSelf: "flex-end",
       borderRadius: "25px 0 25px 25px",
     },

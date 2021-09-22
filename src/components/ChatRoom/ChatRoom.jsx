@@ -1,4 +1,5 @@
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, Input } from "@material-ui/core";
+import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useParams } from "react-router";
@@ -12,6 +13,7 @@ const ChatRoom = () => {
   const classes = useStyles();
 
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
+  const [isOpenSmiles, setIsOpenSmiles] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
 
   const [fieldText, setFieldText] = useState([
@@ -22,18 +24,9 @@ const ChatRoom = () => {
     },
   ]);
 
-  useEffect(() => {
-    console.log(`selectMsg`, selectMsg);
-  }, [selectMsg]);
-
-  useEffect(() => {
-    console.log(`isOpenUpdateMessage`, isOpenUpdateMessage);
-  }, [isOpenUpdateMessage]);
-
-  useEffect(() => {
-    console.log(`fieldText`, fieldText);
-  }, [fieldText]);
-
+  const onEmojiClick = (_, emojiObject) => {
+    setFormValue((prevText) => `${prevText}${emojiObject.emoji}`);
+  };
   const changeMessageForm = () => {
     return formGenerator({
       form: fieldText,
@@ -111,6 +104,7 @@ const ChatRoom = () => {
   const canselAllEvent = (e) => {
     if (e.target.id === "message") {
       setSelectMsg(null);
+      setIsOpenSmiles(false);
     }
   };
   return (
@@ -140,14 +134,35 @@ const ChatRoom = () => {
           flag={isOpenUpdateMessage}
           chieldren={changeMessageForm()}
         />
+        <DropDownBox
+          flag={isOpenSmiles}
+          chieldren={
+            <Picker
+              onEmojiClick={onEmojiClick}
+              disableAutoFocus={true}
+              skinTone={SKIN_TONE_MEDIUM_DARK}
+              groupNames={{ smileys_people: "PEOPLE" }}
+              native
+            />
+          }
+          height={325}
+          className={classes.smilesBox}
+        />
       </Box>
 
       <form onSubmit={sendMessage} className={classes.form}>
-        <TextField
+        <Input
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
           placeholder="say something nice"
           className={classes.inputForSendMessage}
+          endAdornment={
+            <Box className={classes.smileButton}>
+              <Button onClick={() => setIsOpenSmiles((prev) => !prev)}>
+                😀
+              </Button>
+            </Box>
+          }
         />
 
         <Button type="submit" disabled={!formValue} color="secondary">
