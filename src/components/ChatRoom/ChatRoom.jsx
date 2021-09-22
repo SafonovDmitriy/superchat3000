@@ -45,12 +45,13 @@ const ChatRoom = () => {
   const [formValue, setFormValue] = useState("");
 
   const onSubmitHendler = ({ text }) => {
-    if (text !== selectMsg.text) {
+    if (text !== selectMsg.text && auth.currentUser.uid === selectMsg.uid) {
       messagesRef.doc(selectMsg.id).update({
         text,
         isChanged: true,
       });
     }
+    setIsOpenSmiles(false);
     setIsOpenUpdateMessage(false);
     setSelectMsg(null);
   };
@@ -72,6 +73,8 @@ const ChatRoom = () => {
       isChanged: false,
     });
     setFormValue("");
+    setIsOpenSmiles(false);
+    setIsOpenUpdateMessage(false);
     dummy.current.scrollIntoView({ behavior: "smooth" });
   };
   const selectMessage = (e, msg) => {
@@ -100,8 +103,11 @@ const ChatRoom = () => {
   };
   const canselAllEvent = (e) => {
     if (e.target.id === "message") {
+      if (isOpenSmiles) {
+        setIsOpenSmiles(false);
+        return null;
+      }
       setSelectMsg(null);
-      setIsOpenSmiles(false);
     }
   };
   const onEmojiClick = (_, emojiObject) => {

@@ -19,10 +19,12 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
   };
   const deleteMessageHendler = (e) => {
     messagesRef.doc(message.id).delete();
+    selectMessage(null, null);
     handleClose(e);
   };
   const copyMessageHendler = (e) => {
     navigator.clipboard.writeText(message.text);
+    selectMessage(null, null);
     handleClose(e);
   };
   const handleClick = (e) => {
@@ -46,7 +48,11 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
           { children: "Copy", onClick: copyMessageHendler },
           // { children: "Forward", onClick: () => {} },
         ];
-
+  const canselSelectMsg = (e) => {
+    if (!e.target.outerText) {
+      selectMessage(null, null);
+    }
+  };
   return (
     <Box className={clsx(classes.message, classes[messageClass])} id="message">
       <img
@@ -65,6 +71,7 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={canselSelectMsg}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
