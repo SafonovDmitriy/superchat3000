@@ -6,7 +6,7 @@ function SignIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
   };
-
+  console.log("asd");
   return (
     <Button color="secondary" className="sign-in" onClick={signInWithGoogle}>
       Sign in with Google

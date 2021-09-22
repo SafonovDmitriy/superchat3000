@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { SignOut } from "..";
+import { LanguageSelect, SignOut } from "..";
 import { ROOMS_PAGE } from "../../utils/rootPath";
 
 const Header = () => {
@@ -14,7 +14,7 @@ const Header = () => {
           <Button color="secondary">Go to List</Button>
         </Link>
       ) : null}
-
+      <LanguageSelect />
       <SignOut />
     </header>
   );

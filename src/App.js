@@ -8,7 +8,7 @@ import { auth } from "./firebase";
 function App() {
   const [user] = useAuthState(auth);
   const classes = useStyles();
-
+  console.log(`user`, user);
   return (
     <Box className={classes.app}>
       <Header />

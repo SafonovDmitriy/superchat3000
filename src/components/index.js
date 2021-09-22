@@ -9,3 +9,4 @@ export { default as SideBar } from "./SideBar/SideBar";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignOut } from "./SignOut/SignOut";
 export { default as DropDownBox } from "./DropDownBox/DropDownBox";
+export { default as LanguageSelect } from "./LanguageSelect/LanguageSelect";

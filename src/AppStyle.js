@@ -6,7 +6,7 @@ export default makeStyles({
     maxWidth: 728,
     margin: "0 auto",
     "& header": {
-      backgroundColor: "#181717",
+      backgroundColor: "#000000",
       height: "10vh",
       minHeight: 50,
       color: "white",
@@ -21,11 +21,11 @@ export default makeStyles({
       padding: 10,
       boxSizing: "border-box",
     },
-    section: {
-      padding: "95px 0",
-      boxSizing: "border-box",
-      height: "100vh",
-      backgroundColor: "rgb(40, 37, 53)",
-    },
+  },
+  section: {
+    padding: "95px 0",
+    boxSizing: "border-box",
+    height: "100vh",
+    backgroundColor: "rgb(40, 37, 53)",
   },
 });
