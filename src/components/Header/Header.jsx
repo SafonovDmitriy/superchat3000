@@ -8,13 +8,13 @@ const Header = () => {
   const { pathname } = useLocation();
   return (
     <header>
-      <h1>⚛️🔥💬</h1>
+      <LanguageSelect />
       {!pathname.indexOf(`${ROOMS_PAGE}/`) ? (
         <Link to={ROOMS_PAGE}>
           <Button color="secondary">Go to List</Button>
         </Link>
       ) : null}
-      <LanguageSelect />
+
       <SignOut />
     </header>
   );

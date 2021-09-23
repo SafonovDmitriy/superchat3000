@@ -23,7 +23,7 @@ const ListGroups = () => {
   const [showRooms, setShowRooms] = useState([]);
 
   const [updateOpenForm, setUpdateOpenForm] = useState(null);
-  const [selectRoomId, setSelectRoomId] = useState(null);
+  const [selectRoom, setSelectRoom] = useState(null);
   const [newGroup, setNewGroup] = useState([
     {
       name: "name",
@@ -38,8 +38,17 @@ const ListGroups = () => {
       any: { variant: "outlined", placeholder: "Password", type: "password" },
     },
   ]);
-
-  const setEditGroupHendler = ({ room }) => {
+  const clearFields = () =>
+    setNewGroup(
+      newGroup.reduce((acc, item) => {
+        acc.push({
+          ...item,
+          value: "",
+        });
+        return acc;
+      }, [])
+    );
+  const fillFields = (room) =>
     setNewGroup(
       newGroup.reduce((acc, item) => {
         for (const key in room) {
@@ -53,31 +62,37 @@ const ListGroups = () => {
         return acc;
       }, [])
     );
+
+  const setEditGroupHendler = ({ room }) => {
+    fillFields(room);
     createIsGroupHendler(true);
-    setSelectRoomId(room.id);
+
+    // if (updateOpenForm === null) {
+    //   createIsGroupHendler(true);
+    // }
+
+    if (room.id === selectRoom?.id) {
+      setSelectRoom(null);
+      createIsGroupHendler(null);
+      return null;
+    }
+    setSelectRoom(room);
   };
+
   const setIsCheckPrivetHendler = () => {
     setIsCheckPrivet(!isCheckPrivet);
   };
   const createIsGroupHendler = (flag) => {
     if (flag === false) {
-      setNewGroup(
-        newGroup.reduce((acc, item) => {
-          acc.push({
-            ...item,
-            value: "",
-          });
-
-          return acc;
-        }, [])
-      );
+      clearFields();
+      if (updateOpenForm === false) {
+        setUpdateOpenForm(null);
+        return null;
+      }
+      if (updateOpenForm) {
+        setSelectRoom(null);
+      }
     }
-    if (updateOpenForm === false || updateOpenForm === true) {
-      setUpdateOpenForm(null);
-      setSelectRoomId(null);
-      return null;
-    }
-
     setUpdateOpenForm(flag);
   };
 
@@ -107,7 +122,7 @@ const ListGroups = () => {
   };
   const editRoomHendler = (form) => {
     createIsGroupHendler(null);
-    messagesRef.doc(selectRoomId).update({
+    messagesRef.doc(selectRoom.id).update({
       ...form,
     });
   };
@@ -119,9 +134,11 @@ const ListGroups = () => {
       submitText: updateOpenForm ? "Save" : "Create",
       submitProps: { color: "secondary" },
     });
-
+  const canselAllBox = (e) => {
+    if (e.target.id === "rooms") setUpdateOpenForm(null);
+  };
   return (
-    <Box className={classes.listGroups}>
+    <Box onClick={canselAllBox} id="rooms" className={classes.listGroups}>
       <Box className={classes.controleList}>
         <Button
           color="secondary"

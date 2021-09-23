@@ -61,7 +61,9 @@ const ChatRoom = () => {
       setIsOpenUpdateMessage(false);
     }
   }, [selectMsg]);
-
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
@@ -147,7 +149,7 @@ const ChatRoom = () => {
         <span ref={dummy}></span>
       </Box>
 
-      <Box className={classes.changeMsg}>
+      <Box className={classes.changeMessageForm}>
         <DropDownBox
           flag={isOpenUpdateMessage}
           chieldren={changeMessageForm()}

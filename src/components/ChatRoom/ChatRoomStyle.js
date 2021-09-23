@@ -2,8 +2,9 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles({
   massagesList: {
-    padding: "35px 10px",
-    height: "90vh",
+    height: "83vh",
+    // padding: "0 10px",
+    // minHeight: "80vh",
     overflowY: "scroll",
     display: "flex",
     flexDirection: "column",
@@ -19,8 +20,8 @@ export default makeStyles({
     },
   },
   form: {
-    height: "10vh",
-    position: "fixed",
+    // height: "10vh",
+    position: "absolute",
     bottom: 0,
     backgroundColor: "rgb(24, 23, 23)",
     width: "100%",
@@ -64,15 +65,13 @@ export default makeStyles({
   selectMsg: {
     backgroundColor: "#4c4a4a24",
   },
-  changeMsg: {
-    marginBottom: "95px",
-  },
+
   smilesBox: {
     display: "flex",
     justifyContent: "end",
 
     position: "absolute",
-    bottom: 100,
+    bottom: 80,
     right: 20,
     border: "none !important",
     padding: "0 !important",
@@ -83,5 +82,8 @@ export default makeStyles({
     "& button": {
       display: "flex",
     },
+  },
+  changeMessageForm: {
+    paddingBottom: 65,
   },
 });

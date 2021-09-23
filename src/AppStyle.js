@@ -23,7 +23,7 @@ export default makeStyles({
     },
   },
   section: {
-    padding: "95px 0",
+    paddingTop: 95,
     boxSizing: "border-box",
     height: "100vh",
     backgroundColor: "rgb(40, 37, 53)",

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 
 export default makeStyles({
   listGroups: {
-    paddingTop: 100,
+    height: "100%",
   },
   controleList: {
     display: "flex",
