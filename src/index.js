@@ -6,8 +6,8 @@ import App from "./App";
 import "./i18nextInit";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
+import * as serviceWorker from "./serviceWorker";
 export const history = createBrowserHistory();
-
 ReactDOM.render(
   <Router history={history}>
     <App />
@@ -16,3 +16,4 @@ ReactDOM.render(
 );
 
 reportWebVitals();
+serviceWorker.register();
