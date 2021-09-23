@@ -1,6 +1,7 @@
 import { Box, Button, Input } from "@material-ui/core";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
+import Notifier from "react-desktop-notification";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -16,6 +17,7 @@ const ChatRoom = () => {
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
   const [isOpenSmiles, setIsOpenSmiles] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
+  const [lastMessage, setLastMessage] = useState(null);
   const { t } = useTranslation();
   const [fieldText, setFieldText] = useState([
     {
@@ -45,6 +47,26 @@ const ChatRoom = () => {
   const [messages] = useCollectionData(query, { idField: "id" });
   const [formValue, setFormValue] = useState("");
 
+  useEffect(() => {
+    if (messages) {
+      const _lastMessage = messages[messages.length - 1];
+      dummy.current.scrollIntoView({ behavior: "smooth" });
+      if (lastMessage && _lastMessage.uid !== auth.currentUser.uid) {
+        Notifier.start(
+          "New Message",
+          _lastMessage.text,
+          window.location.href,
+          null
+        );
+        setLastMessage(_lastMessage);
+        return null;
+      }
+      setLastMessage(_lastMessage);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages]);
+
   const onSubmitHendler = ({ text }) => {
     if (text !== selectMsg.text && auth.currentUser.uid === selectMsg.uid) {
       messagesRef.doc(selectMsg.id).update({
@@ -62,9 +84,7 @@ const ChatRoom = () => {
       setIsOpenUpdateMessage(false);
     }
   }, [selectMsg]);
-  useEffect(() => {
-    dummy.current.scrollIntoView({ behavior: "smooth" });
-  }, []);
+
   const sendMessage = async (e) => {
     e.preventDefault();
     const { uid, photoURL } = auth.currentUser;
@@ -78,7 +98,6 @@ const ChatRoom = () => {
     setFormValue("");
     setIsOpenSmiles(false);
     setIsOpenUpdateMessage(false);
-    dummy.current.scrollIntoView({ behavior: "smooth" });
   };
   const selectMessage = (e, msg) => {
     if (e) {
