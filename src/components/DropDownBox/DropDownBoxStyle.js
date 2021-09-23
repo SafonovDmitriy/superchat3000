@@ -3,11 +3,9 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles({
   createGroup: {
     height: 0,
-
     justifyContent: "center",
     overflow: "hidden",
     transition: "height 1s",
-
     border: "solid 0px",
     borderRadius: 10,
     boxSizing: "border-box",

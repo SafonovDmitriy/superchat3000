@@ -5,7 +5,6 @@ export { default as ListGroups } from "./ListGroups/ListGroups";
 export { default as ModalPasswordConfirmation } from "./ListGroups/Room/ModalPasswordConfirmation/ModalPasswordConfirmation";
 export { default as Room } from "./ListGroups/Room/Room";
 export { default as Root } from "./Root/Root";
-export { default as SideBar } from "./SideBar/SideBar";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignOut } from "./SignOut/SignOut";
 export { default as DropDownBox } from "./DropDownBox/DropDownBox";

@@ -1,13 +1,14 @@
+import { Menu, MenuItem } from "@material-ui/core";
+import { Edit } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import clsx from "clsx";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { auth } from "../../firebase";
 import useStyles from "./ChatMessageStyle";
-import { Edit } from "@mui/icons-material";
-import { useState } from "react";
-import { Menu, MenuItem } from "@material-ui/core";
 const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
   const classes = useStyles();
-
+  const { t } = useTranslation();
   const { text, uid, photoURL, isChanged } = message;
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   const [anchorEl, setAnchorEl] = useState(null);
@@ -35,19 +36,15 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
   const handleClose = (e) => {
     setAnchorEl(null);
   };
-
+  const sendPopup = [
+    { children: t("edit"), onClick: editMessageHendler },
+    { children: t("delete"), onClick: deleteMessageHendler },
+  ];
+  const receivedPopup = [{ children: t("copy"), onClick: copyMessageHendler }];
   const popupMenu =
     uid === auth.currentUser.uid
-      ? [
-          { children: "Edit", onClick: editMessageHendler },
-          { children: "Copy", onClick: copyMessageHendler },
-          { children: "Delete", onClick: deleteMessageHendler },
-          // { children: "Forward", onClick: () => {} },
-        ]
-      : [
-          { children: "Copy", onClick: copyMessageHendler },
-          // { children: "Forward", onClick: () => {} },
-        ];
+      ? [...sendPopup, ...receivedPopup]
+      : receivedPopup;
   const canselSelectMsg = (e) => {
     if (!e.target.outerText) {
       selectMessage(null, null);
@@ -67,14 +64,10 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
         {text} {isChanged ? <Edit /> : null}
       </p>
       <Menu
-        id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         onClick={canselSelectMsg}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
       >
         {popupMenu.map((item, idx) => (
           <MenuItem {...item} key={idx} />

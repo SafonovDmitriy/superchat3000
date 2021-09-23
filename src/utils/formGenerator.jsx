@@ -92,7 +92,6 @@ const formGenerator = ({
           key={key}
           style={{
             display: "flex",
-            // flexDirection: "row",
             gap: 10,
             justifyContent: "center",
           }}

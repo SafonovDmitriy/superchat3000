@@ -1,5 +1,6 @@
 import { Box, Button, Modal, TextField } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { ROOMS_PAGE } from "../../../../utils/rootPath";
 import useStyles from "./ModalPasswordConfirmationStyle";
@@ -11,7 +12,7 @@ const ModalPasswordConfirmation = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
-
+  const { t } = useTranslation();
   const [value, onChange] = useState("");
   const [chance, setChance] = useState(3);
 
@@ -32,10 +33,10 @@ const ModalPasswordConfirmation = ({
       className={classes.modal}
     >
       <Box className={classes.modal_content}>
-        <h1>{`Введите пароль от ${room.name} комнаты`}</h1>
+        <h1>{`${t("enter_the_password_from")} ${room.name} ${t("rooms")}`}</h1>
         <form onSubmit={moveToRoom}>
           <TextField
-            placeholder="Вот прям сюда"
+            placeholder={t("right_here")}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             type="password"
@@ -44,12 +45,16 @@ const ModalPasswordConfirmation = ({
             color="secondary"
             type="submit"
             disabled={chance === 0}
-            children={"Ну погнали"}
+            children={t("done")}
           />
         </form>
 
         {chance < 3 && chance !== 0 && (
-          <Box>{`Пароль не верный,у вас осталось ${chance} попыток`} </Box>
+          <Box>
+            {`${t("the_password_is_wrong_you_still_have")} ${chance} ${t(
+              "chances"
+            )}`}
+          </Box>
         )}
         {chance === 0 && (
           <StartTimer
@@ -67,6 +72,7 @@ export default ModalPasswordConfirmation;
 
 const StartTimer = ({ time, end }) => {
   const [timer, setTimer] = useState(time);
+  const { t } = useTranslation();
   useEffect(() => {
     if (timer > 0) {
       setTimeout(() => setTimer(timer - 1), 1000);
@@ -76,5 +82,9 @@ const StartTimer = ({ time, end }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timer]);
 
-  return <p style={{ color: "black" }}>{`Ну теперь жди ${timer} сек`}</p>;
+  return (
+    <p style={{ color: "black" }}>{`${t("now_wait")} ${timer} ${t(
+      "seconds"
+    )}`}</p>
+  );
 };

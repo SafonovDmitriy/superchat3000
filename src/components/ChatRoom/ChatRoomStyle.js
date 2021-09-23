@@ -75,6 +75,9 @@ export default makeStyles({
     right: 20,
     border: "none !important",
     padding: "0 !important",
+    "& .makeStyles-fields-18 input": {
+      color: "black",
+    },
   },
   smileButton: {
     display: "flex",

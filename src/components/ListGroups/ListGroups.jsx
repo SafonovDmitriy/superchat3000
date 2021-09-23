@@ -1,6 +1,7 @@
 import { Box, Button, Checkbox, FormControlLabel } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { Room } from "..";
 import { auth, firebase, firestore } from "../../firebase";
@@ -12,6 +13,7 @@ import useStyles from "./ListGroupsStyle";
 const ListGroups = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [isCheckPrivet, setIsCheckPrivet] = useState(
     JSON.parse(localStorage.getItem(IS_CHECK_PRIVAT_LOCAL_STORAGE))
@@ -21,7 +23,6 @@ const ListGroups = () => {
   const [rooms] = useCollectionData(query, { idField: "id" });
 
   const [showRooms, setShowRooms] = useState([]);
-
   const [updateOpenForm, setUpdateOpenForm] = useState(null);
   const [selectRoom, setSelectRoom] = useState(null);
   const [newGroup, setNewGroup] = useState([
@@ -29,13 +30,17 @@ const ListGroups = () => {
       name: "name",
       value: "",
       group: 1,
-      any: { variant: "outlined", placeholder: "Name your group" },
+      any: { variant: "outlined", placeholder: t("room_name") },
     },
     {
       name: "password",
       value: "",
       group: 1,
-      any: { variant: "outlined", placeholder: "Password", type: "password" },
+      any: {
+        variant: "outlined",
+        placeholder: t("password"),
+        type: "password",
+      },
     },
   ]);
   const clearFields = () =>
@@ -131,7 +136,7 @@ const ListGroups = () => {
       form: newGroup,
       setValue: setNewGroup,
       onSubmit: updateOpenForm ? editRoomHendler : onSubmitHendler,
-      submitText: updateOpenForm ? "Save" : "Create",
+      submitText: updateOpenForm ? t("save") : t("create"),
       submitProps: { color: "secondary" },
     });
   const canselAllBox = (e) => {
@@ -143,7 +148,7 @@ const ListGroups = () => {
         <Button
           color="secondary"
           onClick={() => createIsGroupHendler(false)}
-          children={"Create Group"}
+          children={t("create_room")}
         />
         <FormControlLabel
           color="secondary"
@@ -154,7 +159,7 @@ const ListGroups = () => {
               onChange={setIsCheckPrivetHendler}
             />
           }
-          label="Show Privat Group"
+          label={t("show_private_rooms")}
         />
       </Box>
 

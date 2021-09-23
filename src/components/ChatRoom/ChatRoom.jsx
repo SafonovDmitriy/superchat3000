@@ -2,6 +2,7 @@ import { Box, Button, Input } from "@material-ui/core";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ChatMessage, DropDownBox } from "..";
 import { auth, firebase, firestore } from "../../firebase";
@@ -15,12 +16,12 @@ const ChatRoom = () => {
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
   const [isOpenSmiles, setIsOpenSmiles] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
-
+  const { t } = useTranslation();
   const [fieldText, setFieldText] = useState([
     {
       name: "text",
       value: "",
-      any: { variant: "outlined", placeholder: "Change Message" },
+      any: { variant: "outlined", placeholder: t("change_message") },
     },
   ]);
 
@@ -29,7 +30,7 @@ const ChatRoom = () => {
       form: fieldText,
       setValue: setFieldText,
       onSubmit: onSubmitHendler,
-      submitText: "Save",
+      submitText: t("save"),
       submitProps: { color: "secondary" },
     });
   };
@@ -174,7 +175,7 @@ const ChatRoom = () => {
         <Input
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
-          placeholder="say something nice"
+          placeholder={t("say_something_nice")}
           className={classes.inputForSendMessage}
           endAdornment={
             <Box className={classes.smileButton}>
