@@ -1,5 +1,5 @@
 import { createBrowserHistory } from "history";
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
@@ -11,11 +11,13 @@ import reportWebVitals from "./reportWebVitals";
 export const history = createBrowserHistory();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
-  </Provider>,
+  <Suspense fallback="...">
+    <Provider store={store}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
+  </Suspense>,
   document.getElementById("root")
 );
 
