@@ -1,11 +1,12 @@
-import { Box, Button, Input } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import clsx from "clsx";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import Notifier from "react-desktop-notification";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { ChatMessage, DropDownBox } from "..";
+import { ChatMessage, DropDownBox, SendMessageInput } from "..";
 import { auth, firebase, firestore } from "../../firebase";
 import formGenerator from "../../utils/formGenerator";
 import useStyles from "./ChatRoomStyle";
@@ -124,7 +125,7 @@ const ChatRoom = () => {
     setIsOpenUpdateMessage(false);
   };
   const canselAllEvent = (e) => {
-    if (e.target.id === "message") {
+    if (e.target.id === "message" || e.target.id === "messageBox") {
       if (isOpenSmiles) {
         setIsOpenSmiles(false);
         return null;
@@ -149,13 +150,18 @@ const ChatRoom = () => {
   };
   return (
     <>
-      <Box className={classes.massagesList}>
+      <Box
+        className={classes.massagesList}
+        onClick={canselAllEvent}
+        id="messageBox"
+      >
         {messages &&
           messages.map((msg) => (
             <Box
               key={msg.id}
-              className={msg.id === selectMsg?.id ? classes.selectMsg : ""}
-              onClick={canselAllEvent}
+              className={clsx(
+                msg.id === selectMsg?.id ? classes.selectMsg : ""
+              )}
             >
               <ChatMessage
                 message={msg}
@@ -190,25 +196,12 @@ const ChatRoom = () => {
         />
       </Box>
 
-      <form onSubmit={sendMessage} className={classes.form}>
-        <Input
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-          placeholder={t("say_something_nice")}
-          className={classes.inputForSendMessage}
-          endAdornment={
-            <Box className={classes.smileButton}>
-              <Button color="secondary" onClick={setIsOpenSmilesHendler}>
-                😀
-              </Button>
-            </Box>
-          }
-        />
-
-        <Button type="submit" disabled={!formValue} color="secondary">
-          🕊️
-        </Button>
-      </form>
+      <SendMessageInput
+        sendMessage={sendMessage}
+        formValue={formValue}
+        setFormValue={setFormValue}
+        setIsOpenSmilesHendler={setIsOpenSmilesHendler}
+      />
     </>
   );
 };
