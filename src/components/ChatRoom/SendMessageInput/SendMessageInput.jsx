@@ -3,11 +3,13 @@ import { Box } from "@mui/system";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import useStyles from "./SendMessageInputStyle";
+import { AttachFile } from "@mui/icons-material";
 export default function SendMessageInput({
   sendMessage,
   formValue,
   setFormValue,
   setIsOpenSmilesHendler,
+  setIsOpenAtachFileHendler,
 }) {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -22,6 +24,9 @@ export default function SendMessageInput({
           <Box className={classes.smileButton}>
             <Button color="secondary" onClick={setIsOpenSmilesHendler}>
               😀
+            </Button>
+            <Button color="secondary" onClick={setIsOpenAtachFileHendler}>
+              <AttachFile />
             </Button>
           </Box>
         }

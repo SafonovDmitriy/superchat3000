@@ -4,11 +4,15 @@ export default makeStyles({
   message: {
     display: "flex",
     alignItems: "center",
-    "& p": {
+    gap: 7,
+    "& .body": {
+      "& h5": { margin: 0 },
+      padding: 10,
+      width: "45%",
       display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 5,
+      flexDirection: "column",
+      textAlign: "left",
+
       "& svg": {
         fontSize: 10,
       },
@@ -16,7 +20,7 @@ export default makeStyles({
   },
   sent: {
     flexDirection: "row-reverse",
-    "& p": {
+    "& .body": {
       color: "white",
       background: "#0860a0",
       alignSelf: "flex-end",
@@ -24,7 +28,7 @@ export default makeStyles({
     },
   },
   received: {
-    "& p": {
+    "& .body": {
       background: "#e5e5ea",
       color: "black",
       borderRadius: "0px 25px 25px 25px",
@@ -35,5 +39,19 @@ export default makeStyles({
     height: 40,
     borderRadius: "50%",
     margin: "2px 5px",
+  },
+  galleryPhoto: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 5,
+    padding: "0 !important",
+    width: "100% !important",
+    "& img": {
+      height: 50,
+      "&:hover": {
+        transition: "all 2s",
+        transform: "scale(2)",
+      },
+    },
   },
 });

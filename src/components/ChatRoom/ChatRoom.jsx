@@ -1,15 +1,17 @@
 import { Box } from "@material-ui/core";
 import clsx from "clsx";
 import Picker, { SKIN_TONE_MEDIUM_DARK } from "emoji-picker-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Notifier from "react-desktop-notification";
+import { useDropzone } from "react-dropzone";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { ChatMessage, DropDownBox, SendMessageInput } from "..";
-import { auth, firebase, firestore } from "../../firebase";
+import { auth, firebase, firestore, storage } from "../../firebase";
 import formGenerator from "../../utils/formGenerator";
 import useStyles from "./ChatRoomStyle";
+
 const ChatRoom = () => {
   const { idRoom } = useParams();
 
@@ -17,9 +19,11 @@ const ChatRoom = () => {
 
   const [isOpenUpdateMessage, setIsOpenUpdateMessage] = useState(false);
   const [isOpenSmiles, setIsOpenSmiles] = useState(false);
+  const [isOpenAttachFile, setIsOpenAttachFile] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
   const [lastMessage, setLastMessage] = useState(null);
   const { t } = useTranslation();
+  const [selectPhoto, setselectPhoto] = useState([]);
   const [fieldText, setFieldText] = useState([
     {
       name: "text",
@@ -27,6 +31,19 @@ const ChatRoom = () => {
       any: { variant: "outlined", placeholder: t("change_message") },
     },
   ]);
+
+  const onDrop = useCallback((acceptedFiles) => {
+    const _photoList = [];
+    acceptedFiles.forEach((file) => {
+      const type = file.type.slice(0, file.type.indexOf("/"));
+      if (type === "image") {
+        _photoList.push(file);
+      }
+    });
+
+    setselectPhoto(_photoList);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const changeMessageForm = () => {
     return formGenerator({
@@ -49,10 +66,10 @@ const ChatRoom = () => {
   const [formValue, setFormValue] = useState("");
 
   useEffect(() => {
-    if (messages) {
+    if (messages?.length) {
       const _lastMessage = messages[messages.length - 1];
       dummy.current.scrollIntoView({ behavior: "smooth" });
-      if (lastMessage && _lastMessage.uid !== auth.currentUser.uid) {
+      if (lastMessage && _lastMessage?.uid !== auth?.currentUser?.uid) {
         Notifier.start(
           "New Message",
           _lastMessage.text,
@@ -88,15 +105,25 @@ const ChatRoom = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser;
-    await messagesRef.add({
+    const { uid, photoURL, displayName } = auth.currentUser;
+    const { E_ } = await messagesRef.add({
       text: formValue,
+      displayName,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
       isChanged: false,
     });
+
+    if (selectPhoto.length) {
+      const segments = E_?.path?.segments;
+      const storageRef = storage.ref(`/${segments[segments.length - 1]}`);
+      selectPhoto.forEach((photo) => {
+        storageRef.child(photo.name).put(photo);
+      });
+    }
     setFormValue("");
+    setselectPhoto([]);
     setIsOpenSmiles(false);
     setIsOpenUpdateMessage(false);
   };
@@ -119,6 +146,7 @@ const ChatRoom = () => {
           value: message.text,
         }))
       );
+      setIsOpenAttachFile(false);
       setIsOpenUpdateMessage(true);
       return null;
     }
@@ -128,6 +156,10 @@ const ChatRoom = () => {
     if (e.target.id === "message" || e.target.id === "messageBox") {
       if (isOpenSmiles) {
         setIsOpenSmiles(false);
+        return null;
+      }
+      if (isOpenAttachFile) {
+        setIsOpenAttachFile(false);
         return null;
       }
       setSelectMsg(null);
@@ -148,6 +180,11 @@ const ChatRoom = () => {
   const setIsOpenSmilesHendler = () => {
     setIsOpenSmiles((prev) => !prev);
   };
+  const setIsOpenAtachFileHendler = () => {
+    setIsOpenUpdateMessage(false);
+    setIsOpenAttachFile((prev) => !prev);
+  };
+
   return (
     <>
       <Box
@@ -194,6 +231,28 @@ const ChatRoom = () => {
           height={325}
           className={classes.smilesBox}
         />
+        <DropDownBox
+          flag={isOpenAttachFile}
+          className={classes.dropFileZoneWrapper}
+          height={selectPhoto.length ? 300 : 100}
+          chieldren={
+            <>
+              <Box {...getRootProps()} className={classes.dropFileZone}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag'n drop some files here, or click to select files</p>
+                )}
+              </Box>
+              <Box className={classes.galleryPhoto}>
+                {selectPhoto?.map((photo, idx) => (
+                  <img src={URL.createObjectURL(photo)} alt="" key={idx} />
+                ))}
+              </Box>
+            </>
+          }
+        />
       </Box>
 
       <SendMessageInput
@@ -201,6 +260,7 @@ const ChatRoom = () => {
         formValue={formValue}
         setFormValue={setFormValue}
         setIsOpenSmilesHendler={setIsOpenSmilesHendler}
+        setIsOpenAtachFileHendler={setIsOpenAtachFileHendler}
       />
     </>
   );

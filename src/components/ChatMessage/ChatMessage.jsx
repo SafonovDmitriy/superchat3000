@@ -2,23 +2,57 @@ import { Menu, MenuItem } from "@material-ui/core";
 import { Edit } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDownloadURL } from "react-firebase-hooks/storage";
 import { useTranslation } from "react-i18next";
-import { auth } from "../../firebase";
+import { auth, storage } from "../../firebase";
 import useStyles from "./ChatMessageStyle";
+
+const ShowPhoto = ({ dirPath, fileName }) => {
+  const storageRef = storage.ref(`/${dirPath}/${fileName}`);
+  // eslint-disable-next-line no-unused-vars
+  const [downloadUrl, loading, error] = useDownloadURL(storageRef);
+  if (error?.code === "storage/object-not-found") {
+    return <ShowPhoto dirPath={dirPath} fileName={fileName} />;
+  }
+
+  return <img src={downloadUrl} alt="" />;
+};
+
 const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { text, uid, photoURL, isChanged } = message;
+  const { text, uid, photoURL, isChanged, displayName } = message;
+  const storageRef = storage.ref(`/${message.id}`);
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  const [allImages, setImages] = useState([]);
   const editMessageHendler = (e) => {
     editMessage(message);
     handleClose(e);
   };
-  const deleteMessageHendler = (e) => {
+
+  useEffect(() => {
+    const getPhotos = async () => {
+      const _photosList = await storageRef.listAll();
+      _photosList.items.forEach((imageRef) => {
+        imageRef.getDownloadURL().then((url) => {
+          setImages((allImages) => [...allImages, url]);
+        });
+      });
+    };
+    getPhotos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const deleteMessageHendler = async (e) => {
+    const storageRef = await storage.ref(`/${message.id}`);
+    const { items } = await storageRef.listAll();
+    for await (let imageRef of items) {
+      await imageRef.delete();
+    }
+    storageRef.delete();
     messagesRef.doc(message.id).delete();
     selectMessage(null, null);
     handleClose(e);
@@ -50,6 +84,7 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
       selectMessage(null, null);
     }
   };
+
   return (
     <Box className={clsx(classes.message, classes[messageClass])} id="message">
       <img
@@ -59,10 +94,22 @@ const ChatMessage = ({ message, selectMessage, editMessage, messagesRef }) => {
         alt=""
         className={classes.avatar}
       />
+      <Box onContextMenu={handleClick} className="body">
+        <h5>{displayName}</h5>
+        <span>
+          {text} {isChanged ? <Edit /> : null}
+        </span>
+        {allImages.length ? (
+          <Box className={classes.galleryPhoto}>
+            {allImages.map((photo, idx) => (
+              <Box key={`${photo}+${idx}`}>
+                <img src={photo} alt="" />
+              </Box>
+            ))}
+          </Box>
+        ) : null}
+      </Box>
 
-      <p onContextMenu={handleClick}>
-        {text} {isChanged ? <Edit /> : null}
-      </p>
       <Menu
         anchorEl={anchorEl}
         open={open}

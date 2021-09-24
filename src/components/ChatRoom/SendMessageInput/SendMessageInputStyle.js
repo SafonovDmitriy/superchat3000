@@ -48,6 +48,7 @@ export default makeStyles({
   smileButton: {
     display: "flex",
     justifyContent: "center",
+    gap: 10,
     "& button": {
       display: "flex",
     },

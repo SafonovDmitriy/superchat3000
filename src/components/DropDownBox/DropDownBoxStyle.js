@@ -23,6 +23,7 @@ export default makeStyles({
     border: "solid 1px",
   },
   fields: {
+    height: "100%",
     "& input": {
       color: "white",
     },
