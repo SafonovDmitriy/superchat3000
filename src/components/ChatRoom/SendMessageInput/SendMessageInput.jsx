@@ -4,19 +4,33 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import useStyles from "./SendMessageInputStyle";
 import { AttachFile } from "@mui/icons-material";
+import { auth } from "../../../firebase";
 export default function SendMessageInput({
   sendMessage,
   formValue,
   setFormValue,
   setIsOpenSmilesHendler,
   setIsOpenAtachFileHendler,
+  editMessage,
+  messages,
 }) {
   const classes = useStyles();
   const { t } = useTranslation();
+  const onKeyDownHendler = (e) => {
+    if (e.keyCode === 38 && !String(formValue).length) {
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i].uid === auth.currentUser.uid) {
+          editMessage(messages[i]);
+          return null;
+        }
+      }
+    }
+  };
   return (
     <form onSubmit={sendMessage} className={classes.form}>
       <Input
         value={formValue}
+        onKeyDown={onKeyDownHendler}
         onChange={(e) => setFormValue(e.target.value)}
         placeholder={t("say_something_nice")}
         className={classes.inputForSendMessage}

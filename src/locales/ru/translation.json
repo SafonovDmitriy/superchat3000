@@ -20,5 +20,7 @@
   "now_wait": "Теперь ждите",
   "seconds": "секунд",
   "room_name": "Имя комнаты",
-  "password": "Пароль"
+  "password": "Пароль",
+  "drop_the_files_here": "Скиньте файлы сюда ...",
+  "dragn_drop_some_files_here_or_click_to_select_files": "Перетащите сюда несколько файлов или нажмите для выбора файлов"
 }

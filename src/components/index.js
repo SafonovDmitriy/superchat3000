@@ -1,5 +1,5 @@
 export { default as ChatMessage } from "./ChatMessage/ChatMessage";
-export { default as ChatRoom } from "./ChatRoom/ChatRoom";
+export { default as ChatRoom } from "./ChatRoom/ChatRoomContainer";
 export { default as SendMessageInput } from "./ChatRoom/SendMessageInput/SendMessageInput";
 export { default as Header } from "./Header/Header";
 export { default as ListGroups } from "./ListGroups/ListGroups";

@@ -20,5 +20,7 @@
   "now_wait": "Now wait",
   "seconds": "seconds",
   "room_name": "Room Name",
-  "password": "Password"
+  "password": "Password",
+  "drop_the_files_here": "Drop the files here ...",
+  "dragn_drop_some_files_here_or_click_to_select_files": "Drag'n drop some files here, or click to select files"
 }

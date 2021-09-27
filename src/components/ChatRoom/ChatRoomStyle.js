@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles({
   massagesList: {
     height: "83vh",
-    // padding: "0 10px",
-    // minHeight: "80vh",
     overflowY: "scroll",
     display: "flex",
     gap: 10,
@@ -24,7 +22,22 @@ export default makeStyles({
   selectMsg: {
     backgroundColor: "#4c4a4a24",
   },
-
+  selectImage: {
+    position: "relative",
+    padding: 10,
+    "& span": {
+      display: "flex",
+      top: 0,
+      right: -5,
+      height: 10,
+      position: "absolute",
+      background: "white",
+      borderRadius: 25,
+      "& svg": {
+        fontSize: 10,
+      },
+    },
+  },
   changeMessageForm: {
     paddingBottom: 65,
   },
