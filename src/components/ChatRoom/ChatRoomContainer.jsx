@@ -4,9 +4,9 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { auth, firebase, firestore, storage } from "../../firebase";
+import { generateId } from "../../utils/ChatRoom";
 import formGenerator from "../../utils/formGenerator";
 import ChatRoom from "./ChatRoom";
-import { generateId } from "./services";
 
 const ChatRoomContainer = () => {
   const { idRoom } = useParams();

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
-import { auth, firestore, firebase } from "../../firebase";
+import { auth, firebase, firestore } from "../../firebase";
 import { IS_CHECK_PRIVAT_LOCAL_STORAGE } from "../../utils/constants";
 import formGenerator from "../../utils/formGenerator";
+import { clearFields, fillFields } from "../../utils/ListGroups";
 import { ROOMS_PAGE } from "../../utils/rootPath";
 import ListGroups from "./ListGroups";
-import { clearFields, fillFields } from "./services";
 
 export default function ListGroupsContainer() {
   const { t } = useTranslation();

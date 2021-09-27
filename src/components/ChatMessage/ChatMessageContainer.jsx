@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { auth } from "../../firebase";
+import { copyMessage, deleteMessage, getPhotos } from "../../utils/ChatMessage";
 import ChatMessage from "./ChatMessage";
-import { copyMessage, deleteMessage, getPhotos } from "./services";
 
 export default function ChatMessageContainer({
   message,
