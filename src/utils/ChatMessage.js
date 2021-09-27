@@ -1,5 +1,4 @@
-import { storage } from "../../firebase";
-
+import { storage } from "../firebase";
 export const deleteMessage = async ({ messagesRef, messageId }) => {
   const storageRef = storage.ref(`/${messageId}`);
   const { items } = await storageRef.listAll();
