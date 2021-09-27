@@ -155,6 +155,7 @@ const ChatRoomContainer = () => {
   };
   const setIsOpenAtachFileHendler = () => {
     setIsOpenUpdateMessage(false);
+    setIsOpenSmiles(false);
     setIsOpenAttachFile((prev) => !prev);
   };
 
