@@ -1,8 +1,9 @@
 import { Box, Button, Modal, TextField } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { ROOMS_PAGE } from "../../../../utils/rootPath";
+import StartTimer from "../StartTimer/StartTimer";
 import useStyles from "./ModalPasswordConfirmationStyle";
 
 const ModalPasswordConfirmation = ({
@@ -69,22 +70,3 @@ const ModalPasswordConfirmation = ({
   );
 };
 export default ModalPasswordConfirmation;
-
-const StartTimer = ({ time, end }) => {
-  const [timer, setTimer] = useState(time);
-  const { t } = useTranslation();
-  useEffect(() => {
-    if (timer > 0) {
-      setTimeout(() => setTimer(timer - 1), 1000);
-    } else {
-      end();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timer]);
-
-  return (
-    <p style={{ color: "black" }}>{`${t("now_wait")} ${timer} ${t(
-      "seconds"
-    )}`}</p>
-  );
-};
