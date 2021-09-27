@@ -39,6 +39,7 @@ const ModalPasswordConfirmation = ({
           <TextField
             placeholder={t("right_here")}
             value={value}
+            autoFocus={true}
             onChange={(e) => onChange(e.target.value)}
             type="password"
           />
