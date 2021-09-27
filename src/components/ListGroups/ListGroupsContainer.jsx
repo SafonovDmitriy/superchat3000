@@ -7,6 +7,7 @@ import { IS_CHECK_PRIVAT_LOCAL_STORAGE } from "../../utils/constants";
 import formGenerator from "../../utils/formGenerator";
 import { ROOMS_PAGE } from "../../utils/rootPath";
 import ListGroups from "./ListGroups";
+import { clearFields, fillFields } from "./services";
 
 export default function ListGroupsContainer() {
   const { t } = useTranslation();
@@ -39,33 +40,9 @@ export default function ListGroupsContainer() {
       },
     },
   ]);
-  const clearFields = () =>
-    setNewGroup(
-      newGroup.reduce((acc, item) => {
-        acc.push({
-          ...item,
-          value: "",
-        });
-        return acc;
-      }, [])
-    );
-  const fillFields = (room) =>
-    setNewGroup(
-      newGroup.reduce((acc, item) => {
-        for (const key in room) {
-          if (key === item.name) {
-            acc.push({
-              ...item,
-              value: room[key],
-            });
-          }
-        }
-        return acc;
-      }, [])
-    );
 
   const setEditGroupHendler = ({ room }) => {
-    fillFields(room);
+    fillFields({ setNewGroup, room });
     createIsGroupHendler(true);
     if (room.id === selectRoom?.id) {
       setSelectRoom(null);
@@ -80,7 +57,7 @@ export default function ListGroupsContainer() {
   };
   const createIsGroupHendler = (flag) => {
     if (flag === false) {
-      clearFields();
+      clearFields({ setNewGroup });
       if (updateOpenForm === false) {
         setUpdateOpenForm(null);
         return null;
