@@ -4,16 +4,4 @@ export default makeStyles({
   listGroups: {
     height: "100%",
   },
-  controleList: {
-    display: "flex",
-    justifyContent: "space-around",
-    userSelect: "none",
-    color: "white",
-  },
-  list: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    padding: 20,
-  },
 });

@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Notifier from "react-desktop-notification";
-import { useDropzone } from "react-dropzone";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-
 import { auth, firebase, firestore, storage } from "../../firebase";
 import formGenerator from "../../utils/formGenerator";
 import ChatRoom from "./ChatRoom";
@@ -18,7 +16,7 @@ const ChatRoomContainer = () => {
   const [isOpenAttachFile, setIsOpenAttachFile] = useState(false);
   const [selectMsg, setSelectMsg] = useState(null);
   const [lastMessage, setLastMessage] = useState(null);
-  const [selectPhoto, setselectPhoto] = useState([]);
+  const [selectPhoto, setSelectPhoto] = useState([]);
   const [fieldText, setFieldText] = useState([
     {
       name: "text",
@@ -26,21 +24,6 @@ const ChatRoomContainer = () => {
       any: { variant: "outlined", placeholder: t("change_message") },
     },
   ]);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    const _photoList = [];
-    acceptedFiles.forEach((file) => {
-      const type = file.type.slice(0, file.type.indexOf("/"));
-      if (type === "image") {
-        _photoList.push(file);
-      }
-    });
-
-    setselectPhoto(_photoList);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-  });
 
   const changeMessageForm = () => {
     return formGenerator({
@@ -123,7 +106,7 @@ const ChatRoomContainer = () => {
       await messagesRef.add(message);
     }
     setFormValue("");
-    setselectPhoto([]);
+    setSelectPhoto([]);
     setIsOpenSmiles(false);
     setIsOpenUpdateMessage(false);
   };
@@ -190,7 +173,7 @@ const ChatRoomContainer = () => {
     }
   };
   const deleteOneSelectImg = (idx) => {
-    setselectPhoto(
+    setSelectPhoto(
       selectPhoto.filter((item, itemId) => itemId !== idx && item)
     );
   };
@@ -209,9 +192,7 @@ const ChatRoomContainer = () => {
       onEmojiClick={onEmojiClick}
       isOpenAttachFile={isOpenAttachFile}
       selectPhoto={selectPhoto}
-      getRootProps={getRootProps}
-      getInputProps={getInputProps}
-      isDragActive={isDragActive}
+      setSelectPhoto={setSelectPhoto}
       deleteOneSelectImg={deleteOneSelectImg}
       sendMessage={sendMessage}
       formValue={formValue}
