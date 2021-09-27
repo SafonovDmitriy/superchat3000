@@ -118,6 +118,7 @@ const ChatRoom = ({
         setIsOpenAtachFileHendler={setIsOpenAtachFileHendler}
         editMessage={editMessage}
         messages={messages}
+        selectPhoto={selectPhoto}
       />
     </>
   );

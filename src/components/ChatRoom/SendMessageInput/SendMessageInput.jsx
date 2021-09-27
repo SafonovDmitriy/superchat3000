@@ -13,6 +13,7 @@ export default function SendMessageInput({
   setIsOpenAtachFileHendler,
   editMessage,
   messages,
+  selectPhoto,
 }) {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -46,7 +47,11 @@ export default function SendMessageInput({
         }
       />
 
-      <Button type="submit" disabled={!formValue} color="secondary">
+      <Button
+        type="submit"
+        disabled={!selectPhoto.length && !formValue}
+        color="secondary"
+      >
         🕊️
       </Button>
     </form>

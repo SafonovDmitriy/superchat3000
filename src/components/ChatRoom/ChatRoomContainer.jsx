@@ -84,7 +84,6 @@ const ChatRoomContainer = () => {
   }, [messages]);
 
   const onSubmitHendler = ({ text }) => {
-    console.log(`text`, text);
     if (text !== selectMsg.text && auth.currentUser.uid === selectMsg.uid) {
       messagesRef.doc(selectMsg.id).update({
         text,
