@@ -1,26 +1,25 @@
 import { MenuItem, Select } from "@material-ui/core";
 import i18next from "i18next";
-import React, { useState } from "react";
+import React from "react";
 import { LANGUAGE_LOCAL_STORAGE } from "../../utils/constants";
 import useStyles from "./LanguageSelectStyle";
 export default function LanguageSelect() {
   const classes = useStyles();
   const handleChange = (e) => {
-    setLanguage(e.target.value);
     i18next.changeLanguage(e.target.value);
   };
 
   const languageMap = [
-    { label: "English", dir: "ltr", value: "en" },
+    { label: "English", dir: "ltr", value: "en-US" },
     { label: "Русский", dir: "ltr", value: "ru" },
   ];
-  const [selectLanguage, setLanguage] = useState(
-    localStorage.getItem(LANGUAGE_LOCAL_STORAGE) || "en"
-  );
+  const selectLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE);
+
   return (
     <Select
       label="Language"
       onChange={handleChange}
+      // defaultValue={selectLanguage}
       value={selectLanguage}
       className={classes.select}
     >
