@@ -19,7 +19,6 @@ export default function LanguageSelect() {
     <Select
       label="Language"
       onChange={handleChange}
-      // defaultValue={selectLanguage}
       value={selectLanguage}
       className={classes.select}
     >
