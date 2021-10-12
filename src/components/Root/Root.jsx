@@ -5,9 +5,11 @@ import { Redirect, Route, Switch } from "react-router";
 import { ChatRoom, ListGroups } from "..";
 import { ROOMS_PAGE, ROOM_PAGE } from "../../utils/rootPath";
 import useStyles from "./RootStyle";
-const Root = () => {
+
+const Root = ({ onShowHendler }) => {
   const classes = useStyles();
   const matches = useMediaQuery("(min-width:700px)");
+
   return (
     <Box
       className={clsx(

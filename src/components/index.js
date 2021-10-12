@@ -14,3 +14,4 @@ export { default as ShowListRooms } from "./ListGroups/ShowListRooms/ShowListRoo
 export { default as Root } from "./Root/Root";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignOut } from "./SignOut/SignOut";
+export { default as Intercom } from "./Intercom/Intercom";

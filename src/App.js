@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import useStyles from "./AppStyle";
-import { Header, Root, SignIn } from "./components";
+import { Header, Intercom, Root, SignIn } from "./components";
 import { auth } from "./firebase";
 
 function App() {
@@ -12,10 +12,10 @@ function App() {
   return (
     <Box className={classes.app}>
       <Header />
-
       <section className={classes.section}>
         {user ? <Root /> : <SignIn />}
       </section>
+      <Intercom />
     </Box>
   );
 }
